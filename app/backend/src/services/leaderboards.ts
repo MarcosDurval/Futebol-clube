@@ -21,6 +21,10 @@ class Leaderboards {
 
   private _linterMeuInimigo:boolean;
 
+  private _homeClub:boolean;
+
+  private _awayClub:boolean;
+
   init() {
     this.listTime = {
       name: '',
@@ -36,19 +40,14 @@ class Leaderboards {
     };
   }
 
-  contGols(match:IMatchsDT02) {
-    if (this.listTime.name === match.homeClub.clubName) {
-      this.listTime.goalsFavor += match.homeTeamGoals;
-      this.listTime.goalsOwn += match.awayTeamGoals;
-      this.listTime.totalGames += 1;
-    } else if (this.listTime.name === match.awayClub.clubName) {
-      this.listTime.goalsFavor += match.awayTeamGoals;
-      this.listTime.goalsOwn += match.homeTeamGoals;
-      this.listTime.totalGames += 1;
-    }
-  }
+  // contGols(match:IMatchsDT02) {
+  //   if (this.listTime.name === match.homeClub.clubName) {
 
-  statusGameHome(match:IMatchsDT02) {
+  //   }
+
+  // }
+
+  pointsGameHome(match:IMatchsDT02) {
     if (match.homeTeamGoals > match.awayTeamGoals) {
       this.listTime.totalVictories += 1;
       this.listTime.totalPoints += 3;
@@ -60,7 +59,7 @@ class Leaderboards {
     }
   }
 
-  statusGameVisit(match:IMatchsDT02) {
+  pointsGameVisit(match:IMatchsDT02) {
     if (match.awayTeamGoals > match.homeTeamGoals) {
       this.listTime.totalVictories += 1;
       this.listTime.totalPoints += 3;
@@ -72,11 +71,23 @@ class Leaderboards {
     }
   }
 
-  contGames(match:IMatchsDT02) {
+  visitTeam(match:IMatchsDT02) {
+    if (this.listTime.name === match.awayClub.clubName) {
+      this.pointsGameVisit(match);
+      if (this.listTime.name === match.awayClub.clubName) {
+        this.listTime.goalsFavor += match.awayTeamGoals;
+        this.listTime.goalsOwn += match.homeTeamGoals;
+        this.listTime.totalGames += 1;
+      }
+    }
+  }
+
+  homeTeam(match:IMatchsDT02) {
     if (this.listTime.name === match.homeClub.clubName) {
-      this.statusGameHome(match);
-    } else if (this.listTime.name === match.awayClub.clubName) {
-      this.statusGameVisit(match);
+      this.pointsGameHome(match);
+      this.listTime.goalsFavor += match.homeTeamGoals;
+      this.listTime.goalsOwn += match.awayTeamGoals;
+      this.listTime.totalGames += 1;
     }
   }
 
@@ -106,15 +117,17 @@ class Leaderboards {
     });
   }
 
-  findAll = async () => {
+  findAll = async (homeClub = true, awayClub = true) => {
+    this._homeClub = homeClub;
+    this._awayClub = awayClub;
     const matchs = await this._metodos.findAll();
     const times = await this._metodos.findAllClubs();
     const teste = times.map((time) => {
       this.init();
       this.listTime.name = time.clubName;
       matchs.forEach((match) => {
-        this.contGols(match);
-        this.contGames(match);
+        if (this._homeClub) this.homeTeam(match);
+        if (this._awayClub) this.visitTeam(match);
       });
       this.mate();
       return { ...this.listTime };
