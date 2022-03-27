@@ -9,16 +9,18 @@ class Leaderboards {
 
   constructor() {
     this.leaderboardsRoutes = Router();
+
     this._metodos = new ControllerLeaderboards();
+
     this.Routes();
   }
 
   Routes() {
-    this.leaderboardsRoutes.get('/', this._metodos.findAll.bind(this._metodos));
+    this.leaderboardsRoutes.get('/', this._metodos.findAll);
 
-    this.leaderboardsRoutes.get('/home', this._metodos.findHome.bind(this._metodos));
+    this.leaderboardsRoutes.get('/home', this._metodos.findHome);
 
-    this.leaderboardsRoutes.get('/away', this._metodos.findVisit.bind(this._metodos));
+    this.leaderboardsRoutes.get('/away', this._metodos.findVisit);
   }
 }
 

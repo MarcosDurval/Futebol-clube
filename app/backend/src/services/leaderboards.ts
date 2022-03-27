@@ -1,5 +1,5 @@
 import ModelLeaderboards from '../database/fé/Leaderboards';
-import { IMatchsDT02 } from '../interface/match';
+import { IMatchsDT02, IMatchsDT03 } from '../interface/match';
 
 interface ILeaderboardsDTO{
   name:string,
@@ -25,7 +25,7 @@ class Leaderboards {
 
   private _awayClub:boolean;
 
-  init() {
+  init = () => {
     this.listTime = {
       name: '',
       totalPoints: 0,
@@ -38,84 +38,65 @@ class Leaderboards {
       goalsBalance: 0,
       efficiency: 0,
     };
-  }
+  };
 
-  // contGols(match:IMatchsDT02) {
-  //   if (this.listTime.name === match.homeClub.clubName) {
-
-  //   }
-
-  // }
-
-  pointsGameHome(match:IMatchsDT02) {
-    if (match.homeTeamGoals > match.awayTeamGoals) {
-      this.listTime.totalVictories += 1;
-      this.listTime.totalPoints += 3;
-    } else if (match.homeTeamGoals < match.awayTeamGoals) {
-      this.listTime.totalLosses += 1;
-    } else {
-      this.listTime.totalPoints += 1;
-      this.listTime.totalDraws += 1;
-    }
-  }
-
-  pointsGameVisit(match:IMatchsDT02) {
-    if (match.awayTeamGoals > match.homeTeamGoals) {
-      this.listTime.totalVictories += 1;
-      this.listTime.totalPoints += 3;
-    } else if (match.awayTeamGoals < match.homeTeamGoals) {
-      this.listTime.totalLosses += 1;
-    } else {
-      this.listTime.totalPoints += 1;
-      this.listTime.totalDraws += 1;
-    }
-  }
-
-  visitTeam(match:IMatchsDT02) {
+  visitTeam = (match:IMatchsDT02) => {
     if (this.listTime.name === match.awayClub.clubName) {
-      this.pointsGameVisit(match);
+      const { inProgress, homeClub, awayClub, ...keys } = match;
+      const u = keys as unknown as IMatchsDT03;
+      this.pointsGameHome(u, 'awayTeamGoals', 'homeTeamGoals');
       if (this.listTime.name === match.awayClub.clubName) {
         this.listTime.goalsFavor += match.awayTeamGoals;
         this.listTime.goalsOwn += match.homeTeamGoals;
         this.listTime.totalGames += 1;
       }
     }
-  }
+  };
 
-  homeTeam(match:IMatchsDT02) {
+  homeTeam = (match:IMatchsDT02) => {
     if (this.listTime.name === match.homeClub.clubName) {
-      this.pointsGameHome(match);
+      const { inProgress, homeClub, awayClub, ...keys } = match;
+      const u = keys as unknown as IMatchsDT03;
+      this.pointsGameHome(u, 'homeTeamGoals', 'awayTeamGoals');
       this.listTime.goalsFavor += match.homeTeamGoals;
       this.listTime.goalsOwn += match.awayTeamGoals;
       this.listTime.totalGames += 1;
     }
-  }
+  };
 
-  mate() {
+  pointsGameHome = (match:IMatchsDT03, homeGols:string, awayGols:string) => {
+    if (match[homeGols] > match[awayGols]) {
+      this.listTime.totalVictories += 1;
+      this.listTime.totalPoints += 3;
+    } else if (match[homeGols] < match[awayGols]) {
+      this.listTime.totalLosses += 1;
+    } else {
+      this.listTime.totalPoints += 1;
+      this.listTime.totalDraws += 1;
+    }
+  };
+
+  mate = () => {
     this.listTime.efficiency = (this.listTime.totalPoints / (this.listTime.totalGames * 3)) * 100;
     this.listTime.efficiency = Math.round(this.listTime.efficiency * 100) / 100;
     this.listTime.goalsBalance = this.listTime.goalsFavor - this.listTime.goalsOwn;
-  }
-  // 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols contra.
+  };
 
-  orderTimes(times:ILeaderboardsDTO[]) {
-    this._linterMeuInimigo = true;
-    return times.sort((a, b) => {
-      if (b.totalPoints - a.totalPoints === 0) {
-        if (b.totalVictories - a.totalVictories === 0) {
-          if (b.goalsBalance - a.goalsBalance === 0) {
-            if (b.goalsFavor - a.goalsFavor === 0) {
-              return b.goalsOwn - a.goalsOwn;
-            }
-            return b.goalsFavor - a.goalsFavor;
+  orderTimes = (times:ILeaderboardsDTO[]) => times.sort((a, b) => {
+    if (b.totalPoints - a.totalPoints === 0) {
+      if (b.totalVictories - a.totalVictories === 0) {
+        if (b.goalsBalance - a.goalsBalance === 0) {
+          if (b.goalsFavor - a.goalsFavor === 0) {
+            return b.goalsOwn - a.goalsOwn;
           }
-          return b.goalsBalance - a.goalsBalance;
+          return b.goalsFavor - a.goalsFavor;
         }
-        return b.totalVictories - a.totalVictories;
+        return b.goalsBalance - a.goalsBalance;
       }
-      return b.totalPoints - a.totalPoints;
-    });
-  }
+      return b.totalVictories - a.totalVictories;
+    }
+    return b.totalPoints - a.totalPoints;
+  });
 
   findAll = async (homeClub = true, awayClub = true) => {
     this._homeClub = homeClub;

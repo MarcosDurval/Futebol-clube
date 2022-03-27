@@ -15,7 +15,7 @@ export default class ValidLogin {
     this.verify();
   }
 
-  private verify():void {
+  private verify = ():void => {
     const fields = 'All fields must be filled/Unauthorized';
     const myshema = z.object({
       email: z.string({
@@ -30,5 +30,5 @@ export default class ValidLogin {
     });
 
     myshema.parse({ email: this._email, password: this._password });
-  }
+  };
 }

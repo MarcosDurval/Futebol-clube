@@ -29,7 +29,6 @@ class ClubsMetodos {
 
   finish:RequestHandler = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     await this.ServiceMatchs.finish(+id);
     return res.status(200).json('alow');
   };

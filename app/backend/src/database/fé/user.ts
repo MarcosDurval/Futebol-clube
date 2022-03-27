@@ -10,9 +10,9 @@ interface IUserWithPassDTO {
 class User {
   private metodos = Users;
 
-  async getByEmail(email:string):Promise<IUserWithPassDTO | null> {
+  getByEmail = async (email:string):Promise<IUserWithPassDTO | null> => {
     const user = await this.metodos.findOne({ where: { email }, raw: true });
     return user as unknown as IUserWithPassDTO | null;
-  }
+  };
 }
 export default User;

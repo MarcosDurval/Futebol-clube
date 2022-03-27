@@ -11,11 +11,11 @@ class ValidMatch {
     this.validTime();
   }
 
-  private validTime() {
+  private validTime = () => {
     if (this._time1 === this._time2) {
       throw new Error('It is not possible to create a match with two equal teams/Unauthorized');
     }
-  }
+  };
 }
 
 export default ValidMatch;

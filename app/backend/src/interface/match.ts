@@ -25,6 +25,13 @@ export interface IMatchsDT02 {
   }
 }
 
+export interface IMatchsDT03 {
+  [id:string]: number,
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+}
 export interface ISequelizeValuesDTO<T> {
   desconnhecido: string,
   dataValues:T

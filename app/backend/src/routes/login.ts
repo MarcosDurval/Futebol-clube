@@ -21,14 +21,18 @@ class LoginRoute {
     this.loginRoute = Router();
 
     this.controllerLogin = new Login();
+
     this.checkToken = new ValidToken();
+
     this.Routes();
   }
 
   Routes() {
-    this.loginRoute.post('/', this.controllerLogin.post.bind(this.controllerLogin));
-    this.loginRoute.use(this.checkToken.VerifyToken.bind(this.checkToken));
-    this.loginRoute.get('/validate', this.controllerLogin.validUser.bind(this.controllerLogin));
+    this.loginRoute.post('/', this.controllerLogin.post);
+
+    this.loginRoute.use(this.checkToken.VerifyToken);
+
+    this.loginRoute.get('/validate', this.controllerLogin.validUser);
   }
 }
 

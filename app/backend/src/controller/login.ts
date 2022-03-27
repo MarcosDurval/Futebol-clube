@@ -11,11 +11,11 @@ class Login {
 
   private _token:IUserJwt;
 
-  public async post(req:Request, res:Response) {
+  public post:RequestHandler = async (req:Request, res:Response) => {
     this._validLogin = new ValidLogin(req.body);
     const user = await this._serviceUser.getByEmail(req.body);
     return res.status(200).json(user);
-  }
+  };
 
   public validUser:RequestHandler = (req, res) => res.status(200).json(req.user.role);
 }

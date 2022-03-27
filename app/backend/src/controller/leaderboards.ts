@@ -15,7 +15,7 @@ class Leaderboards {
   };
 
   findVisit:RequestHandler = async (req, res) => {
-    const result = await this._metodos.findAll(false, true);
+    const result = await this._metodos.findAll(false);
     return res.status(200).json(result);
   };
 }
