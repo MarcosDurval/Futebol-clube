@@ -1,11 +1,8 @@
 import * as express from 'express';
 import * as cors from 'cors';
-import Login from './routes/login';
-import Clubs from './routes/clubs';
+import * as Routes from './routes';
 import domain from './controller/erros/handleErros';
-import Matchs from './routes/matchs';
-import Leaderboards from './routes/leaderboards';
-
+// refarotação feita após aprendizados com o Luiz furtado
 class App {
   public app: express.Express;
   // ...
@@ -14,28 +11,28 @@ class App {
     // ...
     this.app = express();
     this.app.use(cors());
-    this.config();
+    // this.config();
     this.routes();
   }
 
-  private config():void {
-    const accessControl: express.RequestHandler = (_req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT');
-      res.header('Access-Control-Allow-Headers', '*');
-      next();
-    };
+  // private config():void {
+  //   const accessControl: express.RequestHandler = (_req, res, next) => {
+  //     res.header('Access-Control-Allow-Origin', '*');
+  //     res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  //     res.header('Access-Control-Allow-Headers', '*');
+  //     next();
+  //   };
 
-    this.app.use(accessControl);
-    // ...
-  }
+  //   this.app.use(accessControl);
+  //   // ...
+  // }
 
   public routes() {
     this.app.use(express.json());
-    this.app.use('/login', Login);
-    this.app.use('/clubs', Clubs);
-    this.app.use('/matchs', Matchs);
-    this.app.use('/leaderboard', Leaderboards);
+    this.app.use('/login', Routes.Login);
+    this.app.use('/clubs', Routes.Clubs);
+    this.app.use('/matchs', Routes.Matchs);
+    this.app.use('/leaderboard', Routes.Leaderboards);
     this.app.use(domain);
   }
 
