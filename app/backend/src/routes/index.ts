@@ -1,11 +1,7 @@
-import Matchs from './matchs';
-import Leaderboards from './leaderboards';
-import Login from './login';
-import Clubs from './clubs';
+// import Matchs from './matchs';
+export { default as Leaderboards } from './leaderboards';
+export { default as Clubs } from './clubs';
 
-export {
-  Login,
-  Matchs,
-  Leaderboards,
-  Clubs,
-};
+export { default as Login } from './login';
+
+export { default as Matchs } from './matchs';
