@@ -1,5 +1,5 @@
 import ModelMatchs from '../models/matchs';
-import ModelClubs from '../models/clubs';
+import associate from './utils/helps';
 import ICreateMatchDTO, { Gols, IMatchsDT02, ISequelizeValuesDTO } from '../../interface/match';
 
 interface ICreateMatchWithIdDTO extends ICreateMatchDTO{
@@ -9,25 +9,21 @@ interface ICreateMatchWithIdDTO extends ICreateMatchDTO{
 class Matchs {
   private _metodos = ModelMatchs;
 
-  async findAll(): Promise<IMatchsDT02[]> {
+  findAll = async (): Promise<IMatchsDT02[]> => {
     const result = await this._metodos.findAll(
       {
-        include:
-        [{ model: ModelClubs, as: 'homeClub', attributes: ['clubName'] },
-          { model: ModelClubs, as: 'awayClub', attributes: ['clubName'] }],
+        include: associate,
       },
     );
 
     const allClubs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
     return allClubs.map((club) => club.dataValues);
-  }
+  };
 
   findSearch = async (progress: boolean): Promise<IMatchsDT02[]> => {
     const result = await this._metodos.findAll({
       where: { inProgress: progress },
-      include:
-        [{ model: ModelClubs, as: 'homeClub', attributes: { exclude: ['id'] } },
-          { model: ModelClubs, as: 'awayClub', attributes: ['clubName'] }],
+      include: associate,
     });
     const allClubs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
     return allClubs.map((club) => club.dataValues);
