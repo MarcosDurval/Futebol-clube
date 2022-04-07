@@ -11,6 +11,7 @@ export interface Gols{
 }
 
 export interface IMatchsDT02 {
+  [key:string]: number | boolean | object,
   id: number,
   homeTeam: number,
   homeTeamGoals: number,
@@ -25,13 +26,6 @@ export interface IMatchsDT02 {
   }
 }
 
-export interface IMatchsDT03 {
-  [id:string]: number,
-  homeTeam: number,
-  homeTeamGoals: number,
-  awayTeam: number,
-  awayTeamGoals: number,
-}
 export interface ISequelizeValuesDTO<T> {
   desconnhecido: string,
   dataValues:T

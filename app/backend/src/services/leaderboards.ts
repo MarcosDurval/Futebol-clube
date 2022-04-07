@@ -1,25 +1,11 @@
 import ModelLeaderboards from '../database/fé/Leaderboards';
-import { IMatchsDT02, IMatchsDT03 } from '../interface/match';
-
-interface ILeaderboardsDTO{
-  name:string,
-  totalPoints: number,
-  totalGames: number,
-  totalVictories:number,
-  totalDraws: number,
-  totalLosses: number,
-  goalsFavor: number,
-  goalsOwn: number,
-  goalsBalance: number,
-  efficiency: number
-}
+import { IMatchsDT02 } from '../interface/match';
+import ILeaderboardsDTO from '../interface/leaderboards';
 
 class Leaderboards {
   private _metodos = new ModelLeaderboards();
 
   private listTime:ILeaderboardsDTO;
-
-  private _linterMeuInimigo:boolean;
 
   private _homeClub:boolean;
 
@@ -42,9 +28,7 @@ class Leaderboards {
 
   visitTeam = (match:IMatchsDT02) => {
     if (this.listTime.name === match.awayClub.clubName) {
-      const { inProgress, homeClub, awayClub, ...keys } = match;
-      const u = keys as unknown as IMatchsDT03;
-      this.pointsGameHome(u, 'awayTeamGoals', 'homeTeamGoals');
+      this.pointsGameHome(match, 'awayTeamGoals', 'homeTeamGoals');
       if (this.listTime.name === match.awayClub.clubName) {
         this.listTime.goalsFavor += match.awayTeamGoals;
         this.listTime.goalsOwn += match.homeTeamGoals;
@@ -55,16 +39,14 @@ class Leaderboards {
 
   homeTeam = (match:IMatchsDT02) => {
     if (this.listTime.name === match.homeClub.clubName) {
-      const { inProgress, homeClub, awayClub, ...keys } = match;
-      const u = keys as unknown as IMatchsDT03;
-      this.pointsGameHome(u, 'homeTeamGoals', 'awayTeamGoals');
+      this.pointsGameHome(match, 'homeTeamGoals', 'awayTeamGoals');
       this.listTime.goalsFavor += match.homeTeamGoals;
       this.listTime.goalsOwn += match.awayTeamGoals;
       this.listTime.totalGames += 1;
     }
   };
 
-  pointsGameHome = (match:IMatchsDT03, homeGols:string, awayGols:string) => {
+  pointsGameHome = (match:IMatchsDT02, homeGols:string, awayGols:string) => {
     if (match[homeGols] > match[awayGols]) {
       this.listTime.totalVictories += 1;
       this.listTime.totalPoints += 3;

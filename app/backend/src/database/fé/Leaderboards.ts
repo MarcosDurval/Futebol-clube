@@ -1,5 +1,6 @@
 import ModelMatchs from '../models/matchs';
 import ModelClubs from '../models/clubs';
+import associate from './utils/helps';
 import { IMatchsDT02, ISequelizeValuesDTO } from '../../interface/match';
 import IClubsCamelDTO from '../../interface/clubs';
 
@@ -16,9 +17,7 @@ class Leaderboards {
 
   findAll = async ():Promise<IMatchsDT02[]> => {
     const result = await this.metodos.findAll({ where: { inProgress: false },
-      include:
-      [{ model: ModelClubs, as: 'homeClub', attributes: ['clubName'] },
-        { model: ModelClubs, as: 'awayClub', attributes: ['clubName'] }],
+      include: associate,
     });
     const matchs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
     return matchs.map((match) => match.dataValues);
