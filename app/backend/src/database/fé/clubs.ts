@@ -1,8 +1,8 @@
-import Clubs from '../models/clubs';
+import ModelClubs from '../models/clubs';
 import IClubsCamelDTO from '../../interface/clubs';
 
-class ClearClubs {
-  private _metodos = Clubs;
+class Clubs {
+  private _metodos = ModelClubs;
 
   findAll = async ():Promise<IClubsCamelDTO[]> => {
     const result = await this._metodos.findAll({ raw: true });
@@ -23,4 +23,4 @@ class ClearClubs {
   };
 }
 
-export default ClearClubs;
+export default Clubs;
