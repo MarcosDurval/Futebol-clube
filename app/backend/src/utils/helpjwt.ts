@@ -1,7 +1,7 @@
 import * as Jwt from 'jsonwebtoken';
 import * as fs from 'fs/promises';
 import path = require('path');
-import { IUserJwt } from '../interface/user';
+import { IUserJwt } from '../interface/users';
 
 interface Payload {
   id: number,
@@ -10,29 +10,29 @@ interface Payload {
   email: string
 }
 
-class HelpJwt { // alterar o nome
+class HelpJwt {
   private _data:Jwt.SignOptions = { expiresIn: '10h', algorithm: 'HS256' };
 
-  private _senha:string;
+  private _password:string;
 
   constructor() {
-    this.findSenha();
+    this.findPassword();
   }
 
-  private async findSenha() {
-    this._senha = await fs.readFile(
+  private async findPassword() {
+    this._password = await fs.readFile(
       path.resolve(__dirname, '..', '..', 'jwt.evaluation.key'),
       'utf-8',
     );
   }
 
   verify(token:string) {
-    const result = Jwt.verify(token, this._senha);
+    const result = Jwt.verify(token, this._password);
     return result as unknown as IUserJwt;
   }
 
   sign(payload:Payload) {
-    const token = Jwt.sign(payload, this._senha, this._data);
+    const token = Jwt.sign(payload, this._password, this._data);
     return token;
   }
 }

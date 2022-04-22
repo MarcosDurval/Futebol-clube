@@ -1,36 +1,18 @@
-import { DataTypes, Model } from 'sequelize';
-import db from '.';
+import Users from './sequelize/users';
 
-class Users extends Model {
+interface IUserWithPassDTO {
+  id: number,
+  username: string,
+  role: string,
+  email: string
+  password:string
 }
+class User {
+  private metodos = Users;
 
-Users.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  role: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}, {
-  underscored: true,
-  sequelize: db,
-  tableName: 'users',
-  timestamps: false,
-});
-
-export default Users;
+  getByEmail = async (email:string):Promise<IUserWithPassDTO | null> => {
+    const user = await this.metodos.findOne({ where: { email }, raw: true });
+    return user as unknown as IUserWithPassDTO | null;
+  };
+}
+export default User;

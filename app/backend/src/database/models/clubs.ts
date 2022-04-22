@@ -1,27 +1,23 @@
-import { Model, DataTypes } from 'sequelize';
-import db from '.';
+import ModelClubs from './sequelize/clubs';
+import IClubsCamelDTO from '../../interface/clubs';
 
-class Clubs extends Model {
+class Clubs {
+  private _metodos = ModelClubs;
 
+  findAll = async ():Promise<IClubsCamelDTO[]> => {
+    const result = await this._metodos.findAll({ raw: true });
+    return result as unknown as IClubsCamelDTO[];
+  };
+
+  findId = async (id:number):Promise<IClubsCamelDTO | null> => {
+    const result = await this._metodos.findByPk(id, { raw: true });
+    return result as unknown as IClubsCamelDTO | null;
+  };
+
+  findAllIds = async (id1:number, id2:number) => {
+    const result = await this._metodos.findAll({ where: { id: [id1, id2] }, raw: true });
+    return result as unknown as IClubsCamelDTO[];
+  };
 }
-Clubs.init(
-  {
-    id: {
-      primaryKey: true,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-    },
-    clubName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    underscored: true,
-    sequelize: db,
-    tableName: 'clubs',
-    timestamps: false,
-  },
-);
 
 export default Clubs;

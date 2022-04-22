@@ -1,4 +1,4 @@
-import ModelClubs from '../../models/clubs';
+import ModelClubs from '../sequelize/clubs';
 
 const associate = [{ model: ModelClubs, as: 'homeClub', attributes: ['clubName'] },
   { model: ModelClubs, as: 'awayClub', attributes: ['clubName'] }];

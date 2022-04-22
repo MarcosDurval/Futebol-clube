@@ -1,10 +1,10 @@
 import * as sinon from 'sinon'
 import * as chai from 'chai'
 import { app } from '../app'
-import ModelClubs from '../database/models/clubs'
+import ModelClubs from '../database/models/sequelize/clubs'
 import { Response } from 'superagent'
-import chaiHttp = require('chai-http')
-import {allClubs, oneClub, IClubDTO } from './mock' //mocks aqui heheh xD
+import chaiHttp = require('chai-http') 
+import {allClubs, oneClub, IClubDTO } from './mock'
 chai.use(chaiHttp)
 const { expect } = chai
 

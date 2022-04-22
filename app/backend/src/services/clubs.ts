@@ -1,6 +1,6 @@
-import ModelClubs from '../database/fé/clubs';
+import ModelClubs from '../database/models/clubs';
 
-class ServiceClubs {
+class Clubs {
   private ModelClub = new ModelClubs();
 
   public findAll = async () => this.ModelClub.findAll();
@@ -8,4 +8,4 @@ class ServiceClubs {
   public findId = async (id:number) => this.ModelClub.findId(id);
 }
 
-export default ServiceClubs;
+export default Clubs;

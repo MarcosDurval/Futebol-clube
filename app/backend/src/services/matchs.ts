@@ -1,8 +1,8 @@
-import ICreateMatchDTO, { Gols } from '../interface/match';
-import ModelMatchs from '../database/fé/match';
-import ModelClubs from '../database/fé/clubs';
+import ICreateMatchDTO, { Gols } from '../interface/matchs';
+import ModelMatchs from '../database/models/matchs';
+import ModelClubs from '../database/models/clubs';
 
-class ServiceMatchs {
+class Matchs {
   private ModelMatchs = new ModelMatchs();
 
   private ModelClubs = new ModelClubs();
@@ -22,4 +22,4 @@ class ServiceMatchs {
   public updateGols = async (id:number, gols:Gols) => this.ModelMatchs.updateGols(id, gols);
 }
 
-export default ServiceMatchs;
+export default Matchs;

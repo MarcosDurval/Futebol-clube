@@ -1,7 +1,7 @@
-import ModelMatchs from '../models/matchs';
-import ModelClubs from '../models/clubs';
-import associate from './utils/helps';
-import { IMatchsDT02, ISequelizeValuesDTO } from '../../interface/match';
+import ModelMatchs from './sequelize/matchs';
+import ModelClubs from './sequelize/clubs';
+import associate from './utils/associate';
+import { IMatchsDT02, ISequelizeValuesDTO } from '../../interface/matchs';
 import IClubsCamelDTO from '../../interface/clubs';
 
 class Leaderboards {

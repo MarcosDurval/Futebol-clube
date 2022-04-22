@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import ServiceClubs from '../services/clubs';
 
-class ClubsMetodos {
+class Clubs {
   private ServiceClubs = new ServiceClubs();
 
-  findAll:RequestHandler = async (req, res) => {
+  findAll:RequestHandler = async (_req, res) => {
     const data = await this.ServiceClubs.findAll();
     return res.status(200).json(data);
   };
@@ -16,4 +16,4 @@ class ClubsMetodos {
   };
 }
 
-export default ClubsMetodos;
+export default Clubs;

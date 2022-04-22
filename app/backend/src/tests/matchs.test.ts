@@ -1,9 +1,9 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import chaiHttp = require('chai-http');
-import ModelMatchs from '../database/models/matchs'
-import ModelClubs from '../database/models/clubs'
-import ModelUser from '../database/models/users'
+import chaiHttp = require('chai-http') 
+import ModelMatchs from '../database/models/sequelize/matchs'
+import ModelClubs from '../database/models/sequelize/clubs'
+import ModelUser from '../database/models/sequelize/users'
 import { Response } from 'superagent';
 import { app } from '../app';
 import { IMatchsDT0, MockSequlizeTrueMatchs, MockSequlizeAllMatchs,MockSequlizeClubs,MockSequlizeCreatMatchs } from './mock'

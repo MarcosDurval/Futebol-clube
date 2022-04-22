@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import helpjwt from '../utils/helpjwt';
-import ModelUser from '../database/fé/user';
-import { IuserDT0, IUserWithIdDTO, IUserWithTokenDTO } from '../interface/user';
+import ModelUser from '../database/models/users';
+import { IuserDT0, IUserWithIdDTO, IUserWithTokenDTO } from '../interface/users';
 
 class User {
   private _ModelUser:ModelUser = new ModelUser();

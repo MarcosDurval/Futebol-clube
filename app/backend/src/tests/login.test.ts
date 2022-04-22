@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import chaiHttp = require('chai-http');
-import Model2User from '../database/models/users'
+import chaiHttp = require('chai-http') 
+import Model2User from '../database/models/sequelize/users'
 import { Response } from 'superagent';
 import helpjwt from '../utils/helpjwt';
 import { app } from '../app';

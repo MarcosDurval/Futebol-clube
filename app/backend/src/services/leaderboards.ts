@@ -1,5 +1,5 @@
-import ModelLeaderboards from '../database/fé/Leaderboards';
-import { IMatchsDT02 } from '../interface/match';
+import ModelLeaderboards from '../database/models/leaderboards';
+import { IMatchsDT02 } from '../interface/matchs';
 import ILeaderboardsDTO from '../interface/leaderboards';
 
 class Leaderboards {
@@ -46,11 +46,11 @@ class Leaderboards {
     }
   };
 
-  pointsGameHome = (match:IMatchsDT02, homeGols:string, awayGols:string) => {
-    if (match[homeGols] > match[awayGols]) {
+  pointsGameHome = (match:IMatchsDT02, clubA:string, clubB:string) => {
+    if (match[clubA] > match[clubB]) {
       this.listTime.totalVictories += 1;
       this.listTime.totalPoints += 3;
-    } else if (match[homeGols] < match[awayGols]) {
+    } else if (match[clubA] < match[clubB]) {
       this.listTime.totalLosses += 1;
     } else {
       this.listTime.totalPoints += 1;
@@ -64,28 +64,30 @@ class Leaderboards {
     this.listTime.goalsBalance = this.listTime.goalsFavor - this.listTime.goalsOwn;
   };
 
-  orderTimes = (times:ILeaderboardsDTO[]) => times.sort((a, b) => {
-    if (b.totalPoints - a.totalPoints === 0) {
-      if (b.totalVictories - a.totalVictories === 0) {
-        if (b.goalsBalance - a.goalsBalance === 0) {
-          if (b.goalsFavor - a.goalsFavor === 0) {
-            return b.goalsOwn - a.goalsOwn;
+  orderTimes = (times:ILeaderboardsDTO[]) => {
+    times.sort((a, b) => {
+      if (b.totalPoints - a.totalPoints === 0) {
+        if (b.totalVictories - a.totalVictories === 0) {
+          if (b.goalsBalance - a.goalsBalance === 0) {
+            if (b.goalsFavor - a.goalsFavor === 0) {
+              return b.goalsOwn - a.goalsOwn;
+            }
+            return b.goalsFavor - a.goalsFavor;
           }
-          return b.goalsFavor - a.goalsFavor;
+          return b.goalsBalance - a.goalsBalance;
         }
-        return b.goalsBalance - a.goalsBalance;
+        return b.totalVictories - a.totalVictories;
       }
-      return b.totalVictories - a.totalVictories;
-    }
-    return b.totalPoints - a.totalPoints;
-  });
+      return b.totalPoints - a.totalPoints;
+    });
+  };
 
   findAll = async (homeClub = true, awayClub = true) => {
     this._homeClub = homeClub;
     this._awayClub = awayClub;
     const matchs = await this._metodos.findAll();
     const times = await this._metodos.findAllClubs();
-    const teste = times.map((time) => {
+    const resultTimes = times.map((time) => {
       this.init();
       this.listTime.name = time.clubName;
       matchs.forEach((match) => {
@@ -95,7 +97,7 @@ class Leaderboards {
       this.mate();
       return { ...this.listTime };
     });
-    return this.orderTimes(teste);
+    return this.orderTimes(resultTimes);
   };
 }
 

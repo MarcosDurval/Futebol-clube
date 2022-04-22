@@ -1,48 +1,59 @@
-import { DataTypes, Model } from 'sequelize';
-import Clubs from './clubs';
-import db from '.';
+import ModelMatchs from './sequelize/matchs';
+import associate from './utils/associate';
+import ICreateMatchDTO, { Gols, IMatchsDT02, ISequelizeValuesDTO } from '../../interface/matchs';
 
-class Matchs extends Model {
+interface ICreateMatchWithIdDTO extends ICreateMatchDTO{
+  id:number
 }
 
-Matchs.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-    autoIncrement: true,
-  },
-  homeTeam: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  homeTeamGoals: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  awayTeam: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  awayTeamGoals: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  inProgress: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
+class Matchs {
+  private _metodos = ModelMatchs;
 
-}, {
-  timestamps: false,
-  underscored: true,
-  sequelize: db,
-  tableName: 'matchs',
-});
-Clubs.hasMany(Matchs, { foreignKey: 'homeTeam', as: 'homeClub' });
-Clubs.hasMany(Matchs, { foreignKey: 'awayTeam', as: 'awayClub' });
+  findAll = async (): Promise<IMatchsDT02[]> => {
+    const result = await this._metodos.findAll(
+      {
+        include: associate,
+      },
+    );
 
-Matchs.belongsTo(Clubs, { foreignKey: 'homeTeam', as: 'homeClub' });
-Matchs.belongsTo(Clubs, { foreignKey: 'awayTeam', as: 'awayClub' });
+    const allClubs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
+    return allClubs.map((club) => club.dataValues);
+  };
+
+  findSearch = async (progress: boolean): Promise<IMatchsDT02[]> => {
+    const result = await this._metodos.findAll({
+      where: { inProgress: progress },
+      include: associate,
+    });
+    const allClubs = result as unknown as ISequelizeValuesDTO<IMatchsDT02>[];
+    return allClubs.map((club) => club.dataValues);
+  };
+
+  private orderkeys = (newMatch:ISequelizeValuesDTO<ICreateMatchWithIdDTO>) => ({
+    id: newMatch.dataValues.id,
+    homeTeam: newMatch.dataValues.homeTeam,
+    homeTeamGoals: newMatch.dataValues.homeTeamGoals,
+    awayTeam: newMatch.dataValues.awayTeam,
+    awayTeamGoals: newMatch.dataValues.awayTeamGoals,
+    inProgress: newMatch.dataValues.inProgress,
+  });
+
+  create = async (match:ICreateMatchDTO):Promise<ICreateMatchWithIdDTO> => {
+    const result = await this._metodos.create(match);
+    const createMatch = result as unknown as ISequelizeValuesDTO<ICreateMatchWithIdDTO>;
+    console.log(createMatch);
+    return this.orderkeys(createMatch);
+  };
+
+  update = async (id:number):Promise<number> => {
+    await this._metodos.update({ inProgress: false }, { where: { id } });
+    return id;
+  };
+
+  updateGols = async (id:number, gols:Gols):Promise<number> => {
+    await this._metodos.update({ ...gols }, { where: { id } });
+    return id;
+  };
+}
 
 export default Matchs;
