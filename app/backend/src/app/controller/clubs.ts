@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import ServiceClubs from '../services/clubs';
+import 'express-async-errors';
 
 class Clubs {
   private ServiceClubs = new ServiceClubs();

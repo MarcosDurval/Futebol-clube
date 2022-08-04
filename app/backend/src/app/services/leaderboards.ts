@@ -1,6 +1,6 @@
-import ModelLeaderboards from '../database/models/leaderboards';
-import { IMatchsDT02 } from '../interface/matchs';
-import ILeaderboardsDTO from '../interface/leaderboards';
+import ModelLeaderboards from '../models/leaderboards';
+import { IMatchsDTO } from '../../interface/matchs';
+import ILeaderboardsDTO from '../../interface/leaderboards';
 
 class Leaderboards {
   private _metodos = new ModelLeaderboards();
@@ -26,7 +26,7 @@ class Leaderboards {
     };
   };
 
-  visitTeam = (match:IMatchsDT02) => {
+  visitTeam = (match:IMatchsDTO) => {
     if (this.listTime.name === match.awayClub.clubName) {
       this.pointsGameHome(match, 'awayTeamGoals', 'homeTeamGoals');
       if (this.listTime.name === match.awayClub.clubName) {
@@ -37,7 +37,7 @@ class Leaderboards {
     }
   };
 
-  homeTeam = (match:IMatchsDT02) => {
+  homeTeam = (match:IMatchsDTO) => {
     if (this.listTime.name === match.homeClub.clubName) {
       this.pointsGameHome(match, 'homeTeamGoals', 'awayTeamGoals');
       this.listTime.goalsFavor += match.homeTeamGoals;
@@ -46,7 +46,7 @@ class Leaderboards {
     }
   };
 
-  pointsGameHome = (match:IMatchsDT02, clubA:string, clubB:string) => {
+  pointsGameHome = (match:IMatchsDTO, clubA:string, clubB:string) => {
     if (match[clubA] > match[clubB]) {
       this.listTime.totalVictories += 1;
       this.listTime.totalPoints += 3;
@@ -97,7 +97,8 @@ class Leaderboards {
       this.mate();
       return { ...this.listTime };
     });
-    return this.orderTimes(resultTimes);
+    this.orderTimes(resultTimes);
+    return resultTimes;
   };
 }
 

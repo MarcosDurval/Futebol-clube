@@ -1,4 +1,4 @@
-import ICreateMatchDTO from '../../interface/matchs';
+import { ICreateMatchDTO } from '../../../interface/matchs';
 
 class ValidMatch {
   private _time1:number;

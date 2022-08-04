@@ -1,4 +1,4 @@
-import ModelClubs from './sequelize/clubs';
+import ModelClubs from '../../database/sequelize.models/clubs';
 import IClubsCamelDTO from '../../interface/clubs';
 
 class Clubs {

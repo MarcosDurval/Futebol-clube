@@ -1,6 +1,6 @@
-import ICreateMatchDTO, { Gols } from '../interface/matchs';
-import ModelMatchs from '../database/models/matchs';
-import ModelClubs from '../database/models/clubs';
+import { ICreateMatchDTO, Gols } from '../../interface/matchs';
+import ModelMatchs from '../models/matchs';
+import ModelClubs from '../models/clubs';
 
 class Matchs {
   private ModelMatchs = new ModelMatchs();

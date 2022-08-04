@@ -1,4 +1,4 @@
-import ModelClubs from '../database/models/clubs';
+import ModelClubs from '../models/clubs';
 
 class Clubs {
   private ModelClub = new ModelClubs();

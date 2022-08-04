@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import 'express-async-errors';
-import ControllerLeaderboards from '../controller/leaderboards';
+import ControllerLeaderboards from '../../app/controller/leaderboards';
 
 class Leaderboards {
   public leaderboardsRoutes:Router;

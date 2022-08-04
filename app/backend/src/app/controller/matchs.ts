@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import ServiceMatchs from '../services/matchs';
 import ValidMatch from './utils/isValidMatch';
+import 'express-async-errors';
 
 class Matchs {
   private ServiceMatchs = new ServiceMatchs();

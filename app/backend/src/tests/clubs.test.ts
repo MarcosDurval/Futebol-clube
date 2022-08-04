@@ -1,9 +1,9 @@
 import * as sinon from 'sinon'
-import * as chai from 'chai'
-import { app } from '../app'
-import ModelClubs from '../database/models/sequelize/clubs'
-import { Response } from 'superagent'
 import chaiHttp = require('chai-http') 
+import * as chai from 'chai'
+import { api } from '../api/app'
+import ModelClubs from '../database/sequelize.models/clubs'
+import { Response } from 'superagent'
 import {allClubs, oneClub, IClubDTO } from './mock'
 chai.use(chaiHttp)
 const { expect } = chai
@@ -21,7 +21,7 @@ describe("Clubs mudar nome", () => {
 
     })
     it("get na rota /clubs", async () => {
-      chaiHttpResponse = await chai.request(app).get('/clubs')
+      chaiHttpResponse = await chai.request(api).get('/clubs')
       expect(chaiHttpResponse.body).to.be.an("array")
       const clubs = chaiHttpResponse.body as unknown as IClubDTO[]
       clubs.forEach((club) => {
@@ -39,7 +39,7 @@ describe("Clubs mudar nome", () => {
     })
 
     it("get na rota /clubs/id", async () => {
-      chaiHttpResponse = await chai.request(app).get('/clubs/1')
+      chaiHttpResponse = await chai.request(api).get('/clubs/1')
       expect(chaiHttpResponse.body).to.be.an('object')
       expect(chaiHttpResponse.body).to.be.all.keys('id', 'clubName')
 

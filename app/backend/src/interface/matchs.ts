@@ -1,4 +1,4 @@
-export default interface ICreateMatchDTO{
+export interface ICreateMatchDTO{
   homeTeam: number, // O valor deve ser o id do time
   awayTeam: number, // O valor deve ser o id do time
   homeTeamGoals: number,
@@ -10,7 +10,7 @@ export interface Gols{
   awayTeamGoals: number,
 }
 
-export interface IMatchsDT02 {
+export interface IMatchsDTO {
   [key:string]: number | boolean | object,
   id: number,
   homeTeam: number,

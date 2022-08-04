@@ -1,4 +1,4 @@
-export const clubs = [
+export const allClubs = [
   { id: 1, clubName: 'Avaí/Kindermann' },
   { id: 2, clubName: 'Bahia' },
   { id: 3, clubName: 'Botafogo' },
@@ -17,7 +17,7 @@ export const clubs = [
   { id: 16, clubName: 'São Paulo' },
 ]
 
-const Matchs = [
+export const allMatchs = [
 	{
 		"id": 1,
 		"homeTeam": 16,
@@ -580,11 +580,11 @@ const Matchs = [
 	},
 ]
 
-export const arrayMatch = Matchs.map((data) => ({dataValues:data}))
+// export const  = Matchs.map((data) => ({dataValues:data}))
 
-export const arrayClubs = clubs.map((data) => ({dataValues:data}))
+// export const arrayClubs = clubs.map((data) => ({dataValues:data}))
 
-export const allMatch = [
+export const resultMatchs = [
 	{
 		"name": "Palmeiras",
 		"totalPoints": 13,

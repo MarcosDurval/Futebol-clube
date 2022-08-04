@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import Login from '../controller/login';
-import 'express-async-errors';
-import { IUserWithIdDTO } from '../interface/users';
-import ValidToken from '../controller/middleware/validToken';
+import Login from '../../app/controller/login';
+import { IUserWithIdDTO } from '../../interface/users';
+import ValidToken from '../middleware/validToken';
 
 declare module 'express-serve-static-core'{
   interface Request {

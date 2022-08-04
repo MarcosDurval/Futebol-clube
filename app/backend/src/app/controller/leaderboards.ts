@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import ServiceLeaderboards from '../services/leaderboards';
+import 'express-async-errors';
 
 class Leaderboards {
   private _metodos = new ServiceLeaderboards();

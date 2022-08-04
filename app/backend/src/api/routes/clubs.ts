@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ControllerClubs from '../controller/clubs';
+import ControllerClubs from '../../app/controller/clubs';
 
 class Clubs {
   public clubRoute:Router;

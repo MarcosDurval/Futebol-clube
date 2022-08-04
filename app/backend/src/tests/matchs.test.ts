@@ -1,12 +1,12 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http') 
-import ModelMatchs from '../database/models/sequelize/matchs'
-import ModelClubs from '../database/models/sequelize/clubs'
-import ModelUser from '../database/models/sequelize/users'
+import ModelMatchs from '../database/sequelize.models/matchs'
+import ModelClubs from '../database/sequelize.models/clubs'
+import ModelUser from '../database/sequelize.models/users'
 import { Response } from 'superagent';
-import { app } from '../app';
-import { IMatchsDT0, MockSequlizeTrueMatchs, MockSequlizeAllMatchs,MockSequlizeClubs,MockSequlizeCreatMatchs } from './mock'
+import { api } from '../api/app';
+import { IMatchsDT0, matchsTrue, allMatchs,MockSequlizeClubs,MockSequlizeCreatMatchs } from './mock'
 chai.use(chaiHttp)
 
 
@@ -24,13 +24,13 @@ describe('match', () => {
   let chaiHttpResponse: Response
   describe('buscando todos os matchs', () => {
     before( async() => {
-      sinon.stub(ModelMatchs, 'findAll').resolves(MockSequlizeAllMatchs as unknown as ModelMatchs[])
+      sinon.stub(ModelMatchs, 'findAll').resolves(allMatchs as unknown as ModelMatchs[])
     })
     after(() => {
       (ModelMatchs.findAll as sinon.SinonStub).restore()
     })
     it('testando a rota get', async () => {
-      chaiHttpResponse = await chai.request(app).get('/matchs')
+      chaiHttpResponse = await chai.request(api).get('/matchs')
       expect(chaiHttpResponse.body).to.be.an('array')
       const result = chaiHttpResponse.body as IMatchsDT0[]
       result.forEach((matchGame) => {
@@ -45,13 +45,13 @@ describe('match', () => {
   })
   describe('buscando matchs inProgress', () => {
     before( async() => {
-      sinon.stub(ModelMatchs, 'findAll').resolves(MockSequlizeTrueMatchs as unknown as ModelMatchs[])
+      sinon.stub(ModelMatchs, 'findAll').resolves(matchsTrue as unknown as ModelMatchs[])
     })
     after(() => {
       (ModelMatchs.findAll as sinon.SinonStub).restore()
     })
     it('testando a rota get search', async () => {
-      chaiHttpResponse = await chai.request(app).get('/matchs?inProgress=true')
+      chaiHttpResponse = await chai.request(api).get('/matchs?inProgress=true')
       expect(chaiHttpResponse.body).to.be.an('array')
       const result = chaiHttpResponse.body as IMatchsDT0[]
       result.forEach((matchGame) => {
@@ -79,22 +79,22 @@ describe('match', () => {
     })
 
     it('testando a rota get search', async () => {
-      chaiHttpResponse =  await chai.request(app)
+      chaiHttpResponse =  await chai.request(api)
       .post("/login").send({
        email:"user@user.com",
        password:"secret_user",
       })
       token = chaiHttpResponse.body.token
-      chaiHttpResponse = await chai.request(app).post('/matchs')
+      chaiHttpResponse = await chai.request(api).post('/matchs')
       .set({
         "Authorization":token
       })
       .send({
-        homeTeam: 1, // O valor deve ser o id do time
-        awayTeam: 2, // O valor deve ser o id do time
+        homeTeam: 1, 
+        awayTeam: 2, 
         homeTeamGoals: 2,
         awayTeamGoals: 2,
-        inProgress: true // 
+        inProgress: true 
       })
      expect(chaiHttpResponse.body).to.be.an('object')
      expect(chaiHttpResponse.body).to.be.all.keys('id','homeTeam','homeTeamGoals','awayTeam','awayTeamGoals','inProgress')
@@ -108,9 +108,9 @@ describe('match', () => {
     after(() => {
       (ModelMatchs.update as sinon.SinonStub).restore();
     })
-    it('qualquer coisa', async () => {
+    it('Finalizando uma partida', async () => {
 
-      chaiHttpResponse = await chai.request(app).patch('/matchs/49/finish')
+      chaiHttpResponse = await chai.request(api).patch('/matchs/49/finish')
      expect(chaiHttpResponse).to.be.status(200)
     })
       

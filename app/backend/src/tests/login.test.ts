@@ -1,10 +1,10 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http') 
-import Model2User from '../database/models/sequelize/users'
+import Model2User from '../database/sequelize.models/users'
 import { Response } from 'superagent';
 import helpjwt from '../utils/helpjwt';
-import { app } from '../app';
+import { api } from '../api/app';
 
 const User = {
   id:1,
@@ -25,7 +25,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
     describe("testa os tipos de dados recebidos no login" ,() =>{
 
       it("formato do email invalido espera um erro" ,async()=>{
-        chaiHttpResponse = await chai.request(app)
+        chaiHttpResponse = await chai.request(api)
           .post("/login").send({
            email: "batman",
            password: "1234567",
@@ -34,7 +34,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Incorrect email or password"})
       })
       it("tamanho da senha inferior ao requerido espera um erro" ,async()=>{
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email: "batman@hotmail.com",
            password: "12345",
@@ -43,7 +43,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "All fields must be filled"})
       })
       it("email passado o tipo errado espera o erro 400 " ,async()=>{
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email: [1],
            password: "1234567",
@@ -52,7 +52,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Email must be a string"})
       })
       it("Password passado o tipo errado" ,async()=>{
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email: "batman@hotmail.com",
            password: ["123456"],
@@ -61,7 +61,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
         expect(chaiHttpResponse.body).to.be.deep.equal({message: "Password must be a string"})
       })
       it("Password campo vazio" ,async()=>{
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email: "batman@hotmail.com",
            password:""
@@ -82,7 +82,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
       })
       it("senha errada esperando erro 401", async() => {
        
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email:"user@user.com",
            password:"secret_",
@@ -101,7 +101,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
       })
       it("usuario não encontrado esperando", async() => {
        
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email:"batman@gmail.com",
            password:"secret_",
@@ -120,7 +120,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
       })
       it("usuario encontrado", async() => {
        
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email:"user@user.com",
            password:"secret_user",
@@ -131,7 +131,7 @@ describe("testa o funcionamento da rota Login" ,() =>{
       })
       it("Token correto", async() => {
        
-        chaiHttpResponse =  await chai.request(app)
+        chaiHttpResponse =  await chai.request(api)
           .post("/login").send({
            email:"user@user.com",
            password:"secret_user",

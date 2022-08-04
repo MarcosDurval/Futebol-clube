@@ -1,7 +1,8 @@
 import { Request, RequestHandler, Response } from 'express';
 import ValidLogin from './utils/validLogin';
 import ServiceUser from '../services/user';
-import { IUserJwt } from '../interface/users';
+import { IUserJwt } from '../../interface/users';
+import 'express-async-errors';
 
 class Login {
   private _validLogin:ValidLogin;
