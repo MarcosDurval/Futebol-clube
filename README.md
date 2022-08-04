@@ -8,3 +8,19 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+
+## O TFC
+
+É uma aplicação que permite cadastrar partidas listar editar o placar e finalizar uma partida,
+É possível também olhar a classificação geral dos times
+
+
+<img src="./front-example.png"/>
+
+## Construção
+
+Foi construido usando TypeScript, zod para fazer validações dos campos recebidos
+
+O front-end e o docker-compose foram fornecidos pela Trybe
+
+
