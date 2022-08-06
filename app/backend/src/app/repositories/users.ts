@@ -1,4 +1,4 @@
-import Users from '../../database/sequelize.models/users';
+import Users from '../../database/models/users';
 
 interface IUserWithPassDTO {
   id: number,

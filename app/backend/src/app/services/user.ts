@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import helpjwt from '../../utils/helpjwt';
-import ModelUser from '../models/users';
+import ModelUser from '../repositories/users';
 import { IuserDT0, IUserWithIdDTO, IUserWithTokenDTO } from '../../interface/users';
 
 class User {

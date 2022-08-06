@@ -1,4 +1,4 @@
-import ModelMatchs from '../../database/sequelize.models/matchs';
+import ModelMatchs from '../../database/models/matchs';
 import associate from './utils/associate';
 import { ICreateMatchDTO, Gols, IMatchsDTO } from '../../interface/matchs';
 

@@ -3,6 +3,13 @@ import Clubs from './clubs';
 import db from '.';
 
 class Matchs extends Model {
+  public id: number;
+  public homeTeam: number;
+  public homeTeamGoals: number;
+  public awayTeam: number;
+  public awayTeamGoals: number;
+  public inProgress: boolean;
+
 }
 
 Matchs.init({
