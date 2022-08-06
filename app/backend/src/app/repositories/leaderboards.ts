@@ -1,5 +1,5 @@
-import ModelMatchs from '../../database/sequelize.models/matchs';
-import ModelClubs from '../../database/sequelize.models/clubs';
+import ModelMatchs from '../../database/models/matchs';
+import ModelClubs from '../../database/models/clubs';
 import associate from './utils/associate';
 import { IMatchsDTO } from '../../interface/matchs';
 import IClubsCamelDTO from '../../interface/clubs';

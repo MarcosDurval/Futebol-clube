@@ -1,4 +1,4 @@
-import ModelLeaderboards from '../models/leaderboards';
+import ModelLeaderboards from '../repositories/leaderboards';
 import { IMatchsDTO } from '../../interface/matchs';
 import ILeaderboardsDTO from '../../interface/leaderboards';
 
