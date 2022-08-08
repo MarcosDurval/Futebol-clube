@@ -2,7 +2,7 @@ import * as sinon from 'sinon'
 import chaiHttp = require('chai-http') 
 import * as chai from 'chai'
 import { api } from '../api/app'
-import ModelClubs from '../database/sequelize.models/clubs'
+import ModelClubs from '../database/models/clubs'
 import { Response } from 'superagent'
 import {allClubs, oneClub, IClubDTO } from './mock'
 chai.use(chaiHttp)
