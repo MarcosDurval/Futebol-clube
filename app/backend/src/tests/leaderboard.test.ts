@@ -3,8 +3,8 @@ import * as  chai from 'chai'
 import chaiHttp = require ('chai-http')
 import { api } from '../api/app'
 import {Response} from 'superagent'
-import ModelClubs from '../database/sequelize.models/clubs'
-import ModelMatchs from '../database/sequelize.models/matchs'
+import ModelClubs from '../database/models/clubs'
+import ModelMatchs from '../database/models/matchs'
 import {allMatchs,allClubs,resultMatchs} from './mockLeader'
 
 chai.use(chaiHttp)
