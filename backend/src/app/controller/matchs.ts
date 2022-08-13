@@ -31,7 +31,7 @@ class Matchs {
   finish:RequestHandler = async (req, res) => {
     const { id } = req.params;
     await this.ServiceMatchs.finish(+id);
-    return res.status(200).json('alow');
+    return res.status(204).end();
   };
 
   upGols:RequestHandler = async (req, res) => {

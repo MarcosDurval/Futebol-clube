@@ -13,6 +13,7 @@ class Matchs {
     const result = await this._metodos.findAll(
       { raw: true,
         include: associate,
+        nest: true,
       },
     );
 
@@ -25,19 +26,11 @@ class Matchs {
       where: { inProgress: progress },
       include: associate,
       raw: true,
+      nest: true,
     });
     const allClubs = result as unknown as IMatchsDTO[];
     return allClubs;
   };
-
-  // private orderkeys = (newMatch:ISequelizeValuesDTO<ICreateMatchWithIdDTO>) => ({
-  //   id: newMatch.dataValues.id,
-  //   homeTeam: newMatch.dataValues.homeTeam,
-  //   homeTeamGoals: newMatch.dataValues.homeTeamGoals,
-  //   awayTeam: newMatch.dataValues.awayTeam,
-  //   awayTeamGoals: newMatch.dataValues.awayTeamGoals,
-  //   inProgress: newMatch.dataValues.inProgress,
-  // });
 
   create = async (match:ICreateMatchDTO):Promise<ICreateMatchWithIdDTO> => {
     const result = await this._metodos.create(match, { raw: true });

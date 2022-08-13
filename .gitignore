@@ -1,9 +1,9 @@
-**/coverage
-**/node_modules*
-**/.nyc_output
-**/*.log
-**/build*
+node_modules
+build
 coverage
 front.eval
 back.eval
 .vscode
+node_modules.tar.gz
+node_modules
+.env
