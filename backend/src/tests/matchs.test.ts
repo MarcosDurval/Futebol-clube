@@ -111,7 +111,7 @@ describe('match', () => {
     it('Finalizando uma partida', async () => {
 
       chaiHttpResponse = await chai.request(api).patch('/matchs/49/finish')
-     expect(chaiHttpResponse).to.be.status(200)
+     expect(chaiHttpResponse).to.be.status(204)
     })
       
   })
