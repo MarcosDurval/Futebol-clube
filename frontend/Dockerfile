@@ -1,4 +1,4 @@
-FROM node:16.14.2-alpine3.14 AS build
+FROM node:16-alpine3.14 AS build
 
 WORKDIR /frontend
 
